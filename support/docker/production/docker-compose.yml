@@ -3,42 +3,42 @@ version: "3.3"
 services:
 
   # You can comment this webserver section if you want to use another webserver/proxy
-  webserver:
-    image: chocobozzz/peertube-webserver:latest
+  # webserver:
+    # image: chocobozzz/peertube-webserver:latest
     # If you don't want to use the official image and build one from sources:
     # build:
     #   context: .
     #   dockerfile: Dockerfile.nginx
-    env_file:
-      - .env
-    ports:
-     - "80:80"
-     - "443:443"
-    volumes:
-      - type: bind
+    # env_file:
+    #   - .env
+    # ports:
+    # - "80:80"
+    # - "443:443"
+    # volumes:
+      # - type: bind
         # Switch sources if you downloaded the whole repository
         #source: ../../nginx/peertube
-        source: ./docker-volume/nginx/peertube
-        target: /etc/nginx/conf.d/peertube.template
-      - assets:/var/www/peertube/peertube-latest/client/dist:ro
-      - ./docker-volume/data:/var/www/peertube/storage
-      - certbot-www:/var/www/certbot
-      - ./docker-volume/certbot/conf:/etc/letsencrypt
-    depends_on:
-      - peertube
-    restart: "always"
+        # source: ./docker-volume/nginx/peertube
+        # target: /etc/nginx/conf.d/peertube.template
+      # - assets:/var/www/peertube/peertube-latest/client/dist:ro
+      # - ./docker-volume/data:/var/www/peertube/storage
+      # - certbot-www:/var/www/certbot
+      # - ./docker-volume/certbot/conf:/etc/letsencrypt
+    # depends_on:
+      # - peertube
+    # restart: "always"
 
   # You can comment this certbot section if you want to use another webserver/proxy
-  certbot:
-    container_name: certbot
-    image: certbot/certbot
-    volumes:
-      - ./docker-volume/certbot/conf:/etc/letsencrypt
-      - certbot-www:/var/www/certbot
-    restart: unless-stopped
-    entrypoint: /bin/sh -c "trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot; sleep 12h & wait $${!}; done;"
-    depends_on:
-      - webserver
+#  certbot:
+#    container_name: certbot
+#    image: certbot/certbot
+#    volumes:
+#      - ./docker-volume/certbot/conf:/etc/letsencrypt
+#      - certbot-www:/var/www/certbot
+#    restart: unless-stopped
+#    entrypoint: /bin/sh -c "trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot; sleep 12h & wait $${!}; done;"
+#    depends_on:
+#      - webserver
 
   peertube:
     # If you don't want to use the official image and build one from sources:
@@ -55,8 +55,8 @@ services:
       - .env
 
     ports:
-     - "1935:1935" # If you don't want to use the live feature, you can comment this line
-    #  - "9000:9000" # If you provide your own webserver and reverse-proxy, otherwise not suitable for production
+    - "1935:1935" # If you don't want to use the live feature, you can comment this line
+    - "9001:9000" # If you provide your own webserver and reverse-proxy, otherwise not suitable for production
     volumes:
       - assets:/app/client/dist
       - ./docker-volume/data:/data
