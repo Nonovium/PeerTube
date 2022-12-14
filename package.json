@@ -94,7 +94,7 @@
     "deep-object-diff": "^1.1.0",
     "email-templates": "^8.0.3",
     "execa": "^5.1.1",
-    "express": "^4.12.4",
+    "express": "^4.17.3",
     "express-rate-limit": "^5.0.0",
     "express-validator": "^6.4.0",
     "flat": "^5.0.0",
